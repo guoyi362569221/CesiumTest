@@ -10,7 +10,7 @@ import Cesium from 'cesium/Cesium' //from 中 cesium 指向的是vue.config.js�
 // noinspection ES6UnusedImports
 // eslint-disable-next-line no-unused-vars
 import widget from 'cesium/Widgets/widgets.css'
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from './components/Earth/HelloWorld.vue'
 
 export default {
   name: 'App',

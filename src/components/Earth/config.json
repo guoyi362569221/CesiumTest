@@ -1,0 +1,195 @@
+{
+	"name": "AreaActualDistribution",
+	"isConfig": true,
+	"limitHour": 24,
+	"limitDay": 7,
+	"modelType": "obs",
+	"titleFormat":"{{TAREA}}地区{{TPOL}}{{TUNIT}}分布图",
+	"hourArr": [
+		{
+			"label": "00时",
+			"value": 0
+		}, {
+			"label": "01时",
+			"value": 1
+		}, {
+			"label": "02时",
+			"value": 2
+		}, {
+			"label": "03时",
+			"value": 3
+		}, {
+			"label": "04时",
+			"value": 4
+		}, {
+			"label": "05时",
+			"value": 5
+		}, {
+			"label": "06时",
+			"value": 6
+		}, {
+			"label": "07时",
+			"value": 7
+		}, {
+			"label": "08时",
+			"value": 8
+		}, {
+			"label": "09时",
+			"value": 9
+		}, {
+			"label": "10时",
+			"value": 10
+		}, {
+			"label": "11时",
+			"value": 11
+		}, {
+			"label": "12时",
+			"value": 12
+		}, {
+			"label": "13时",
+			"value": 13
+		}, {
+			"label": "14时",
+			"value": 14
+		}, {
+			"label": "15时",
+			"value": 15
+		}, {
+			"label": "16时",
+			"value": 16
+		}, {
+			"label": "17时",
+			"value": 17
+		}, {
+			"label": "18时",
+			"value": 18
+		}, {
+			"label": "19时",
+			"value": 19
+		}, {
+			"label": "20时",
+			"value": 20
+		}, {
+			"label": "21时",
+			"value": 21
+		}, {
+			"label": "22时",
+			"value": 22
+		}, {
+			"label": "23时",
+			"value": 23
+		}
+	],
+	"settings": {
+
+		"dataTypeObj": {
+			"disabled": "",
+			"label": "默认数据类型",
+			"type": "RadioBtns",
+			"default": "hour",
+			"options": [
+				{
+					"label": "小时",
+					"value": "hour"
+				}, {
+					"label": "日均",
+					"value": "day"
+				}
+			]
+		},
+		"hourTargetImgRObj": {
+			"isHidden": false,
+			"disabled": "",
+			"label": "小时默认指标",
+			"type": "RadioBtns",
+			"default": 0,
+			"options": [
+				{
+					"label": "AQI",
+					"value": 0,
+					"id": "M012"
+				}, {
+					"label": "PM₂.₅",
+					"value": 1,
+					"id": "M000"
+				}, {
+					"label": "PM₁₀",
+					"value": 2,
+					"id": "M002"
+				}, {
+					"label": "O₃",
+					"value": 3,
+					"id": "M008"
+				}, {
+					"label": "NO₂",
+					"value": 4,
+					"id": "M010"
+				}, {
+					"label": "CO",
+					"value": 5,
+					"id": "M006"
+				}, {
+					"label": "SO₂",
+					"value": 6,
+					"id": "M004"
+				}
+			]
+		},
+		"dayTargetImgRObj": {
+			"isHidden": false,
+			"disabled": "",
+			"label": "日均默认指标",
+			"type": "RadioBtns",
+			"default": 0,
+			"options": [
+				{
+					"label": "AQI",
+					"value": 0,
+					"id": "M014"
+				}, {
+					"label": "PM₂.₅",
+					"value": 1,
+					"id": "M015"
+				}, {
+					"label": "PM₁₀",
+					"value": 2,
+					"id": "M016"
+				}, {
+					"label": "O₃",
+					"value": 3,
+					"id": "M020"
+				}, {
+					"label": "NO₂",
+					"value": 4,
+					"id": "M018"
+				}, {
+					"label": "CO",
+					"value": 5,
+					"id": "M019"
+				}, {
+					"label": "SO₂",
+					"value": 6,
+					"id": "M017"
+				}
+			]
+		},
+		"areaRObj": {
+			"disabled": "",
+			"label": "默认区域",
+			"type": "RadioBtns",
+			"default": "d01",
+			"options": [
+				{
+					"label": "全国",
+					"value": "d01"
+				}, {
+					"label": "西北部",
+					"value": "d02"
+				}, {
+					"label": "甘肃省",
+					"value": "d03"
+				}
+			]
+		}
+	}
+}
