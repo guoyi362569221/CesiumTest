@@ -1,6 +1,6 @@
 <template>
   <div id="cesiumContainer">
-    <div id="trackPopUp">
+    <div id="trackPopUp" class="noselect" style="display:none;">
       <div id="trackPopUpContent" class="leaflet-popup" style="top:5px;left:0;z-index:1;">
         <a class="leaflet-popup-close-button" href="#">×</a>
         <div class="leaflet-popup-content-wrapper">
@@ -234,7 +234,10 @@ export default {
       point: {
         //点
         pixelSize: 0,
-        HeightReference: 1000,
+        // heightReference: 0,
+        // disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        // eslint-disable-next-line no-undef
+        // heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,//设置HeightReference高度参考类型为CLAMP_TO_GROUND贴地类型
       },
       label: {
         //文字标签
@@ -246,16 +249,23 @@ export default {
         // eslint-disable-next-line no-undef
         fillColor: Cesium.Color.WHITE,
         // eslint-disable-next-line no-undef
-        pixelOffset: new Cesium.Cartesian2(-8, -35), //偏移量
+        pixelOffset: new Cesium.Cartesian2(-0, -35), //偏移量
         showBackground: true,
         // eslint-disable-next-line no-undef
         backgroundColor: new Cesium.Color(0.5, 0.6, 1, 1.0),
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        // eslint-disable-next-line no-undef
+        heightReference:Cesium.HeightReference.CLAMP_TO_GROUND
       },
       billboard: {
         //图标
         image: require("./clz.png"),
         width: 25,
         height: 41,
+        // eslint-disable-next-line no-undef
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        // eslint-disable-next-line no-undef
+        heightReference:Cesium.HeightReference.CLAMP_TO_GROUND
       },
     });
     // 视角定位
@@ -315,6 +325,9 @@ export default {
           '<tr><th style="color:black;">类型</th><td><input style="color:black;" value=111></td></tr>' +
           '<tr><th style="color:black;">经度</th><td><input id="x" style="color:black;" value=222></td></tr>' +
           '<tr><th style="color:black;">纬度</th><td><input id="y" style="color:black;" value=333></td></tr>' +
+          '<tr><th style="color:black;">类型</th><td><input style="color:black;" value=111></td></tr>' +
+          '<tr><th style="color:black;">经度</th><td><input id="x" style="color:black;" value=222></td></tr>' +
+          '<tr><th style="color:black;">纬度</th><td><input id="y" style="color:black;" value=333></td></tr>' +
           "</tbody></table>";
         var obj = {
           position: movement.position,
@@ -322,79 +335,6 @@ export default {
           content: content,
         };
         that.infoWindow(obj);
-        // eslint-disable-next-line no-undef
-        // function infoWindow(obj) {
-        //   var picked = that.viewer.scene.pick(obj.position);
-        //   // eslint-disable-next-line no-undef
-        //   if (Cesium.defined(picked)) {
-        //     // eslint-disable-next-line no-undef
-        //     var id = Cesium.defaultValue(picked.id, picked.primitive.id);
-        //     // eslint-disable-next-line no-undef
-        //     if (id instanceof Cesium.Entity) {
-        //       // eslint-disable-next-line no-undef
-        //       $(".cesium-selection-wrapper").show();
-        //       $("#trackPopUpLink").empty();
-        //       $("#trackPopUpLink").append(obj.content);
-        //       // eslint-disable-next-line no-inner-declarations
-        //       function positionPopUp(c) {
-        //         var x = c.x - $("#trackPopUpContent").width() / 2;
-        //         var y = c.y - $("#trackPopUpContent").height();
-        //         $("#trackPopUpContent").css(
-        //           "transform",
-        //           "translate3d(" + x + "px, " + y + "px, 0)"
-        //         );
-        //       }
-        //       // eslint-disable-next-line no-undef
-        //       var c = new Cesium.Cartesian2(obj.position.x, obj.position.y);
-        //       $("#trackPopUp").show();
-        //       positionPopUp(c); // Initial position
-        //       // at the place item
-        //       // picked
-        //       removeHandler = viewer.scene.postRender.addEventListener(
-        //         function () {
-        //           if (picked.id._polyline != null) {
-        //             var pos = {};
-        //             pos.x =
-        //               (id._polyline._positions._value["0"].x +
-        //                 id._polyline._positions._value[1].x) /
-        //               2;
-        //             pos.y =
-        //               (id._polyline._positions._value["0"].y +
-        //                 id._polyline._positions._value[1].y) /
-        //               2;
-        //             pos.z =
-        //               (id._polyline._positions._value["0"].z +
-        //                 id._polyline._positions._value[1].z) /
-        //               2;
-        //             var changedC = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
-        //               viewer.scene,
-        //               pos
-        //             );
-        //           } else {
-        //             var changedC = Cesium.SceneTransforms.wgs84ToWindowCoordinates(
-        //               viewer.scene,
-        //               id._position._value
-        //             );
-        //           } // If things moved, move the
-        //           // popUp too
-        //           if (c.x !== changedC.x || c.y !== changedC.y) {
-        //             positionPopUp(changedC);
-        //             c = changedC;
-        //           }
-        //         }
-        //       );
-        //       // PopUp close button event handler
-        //       $(".leaflet-popup-close-button").click(function () {
-        //         $("#trackPopUp").hide();
-        //         $("#trackPopUpLink").empty();
-        //         $(".cesium-selection-wrapper").hide();
-        //         removeHandler.call();
-        //         return false;
-        //       });
-        //       return id;
-        //     }
-        //   }
-        // }
       } else {
         // eslint-disable-next-line no-undef
         $("#trackPopUp").hide();
@@ -543,7 +483,7 @@ export default {
 .leaflet-popup-tip-container {
   margin: 0 auto;
   width: 200px;
-  height: 40px;
+  height: 15px;
   position: relative;
   overflow: hidden;
 }
@@ -563,5 +503,14 @@ export default {
 
 /*按钮样式*/
 .add-button {
+}
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+  not supported by any browser */
 }
 </style>
