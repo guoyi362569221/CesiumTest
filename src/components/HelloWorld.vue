@@ -57,7 +57,7 @@ export default {
     };
 
     //buildModuleUrl.setBaseUrl('../../static/Cesium/')
-    debugger;
+
     // eslint-disable-next-line no-undef
     that.viewer = new Cesium.Viewer("cesiumContainer", {
       animation: false,
@@ -226,48 +226,57 @@ export default {
     //         Hightlightline(name_id);
     //     }
     // }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
-    debugger;
-    var monitorEntity = that.viewer.entities.add({
-      name: "video",
-      // eslint-disable-next-line no-undef
-      position: Cesium.Cartesian3.fromDegrees(109.44, 32.11, 0),
-      point: {
-        //点
-        pixelSize: 0,
-        // heightReference: 0,
-        // disableDepthTestDistance: Number.POSITIVE_INFINITY,
+    let monitorEntity = null
+    for(let i=0;i<20;i++){
+      let itemObj = {
+        name: "video",
         // eslint-disable-next-line no-undef
-        // heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,//设置HeightReference高度参考类型为CLAMP_TO_GROUND贴地类型
-      },
-      label: {
-        //文字标签
-        text: "AAAA",
-        font: "500 30px Helvetica", // 15pt monospace
-        scale: 0.5,
-        // eslint-disable-next-line no-undef
-        style: Cesium.LabelStyle.FILL,
-        // eslint-disable-next-line no-undef
-        fillColor: Cesium.Color.WHITE,
-        // eslint-disable-next-line no-undef
-        pixelOffset: new Cesium.Cartesian2(-0, -35), //偏移量
-        showBackground: true,
-        // eslint-disable-next-line no-undef
-        backgroundColor: new Cesium.Color(0.5, 0.6, 1, 1.0),
-        disableDepthTestDistance: Number.POSITIVE_INFINITY,
-        // eslint-disable-next-line no-undef
-        // heightReference:Cesium.HeightReference.CLAMP_TO_GROUND
-      },
-      billboard: {
-        //图标
-        image: require("./clz.png"),
-        width: 25,
-        height: 41,
-        // eslint-disable-next-line no-undef
-        disableDepthTestDistance: Number.POSITIVE_INFINITY,
-        // eslint-disable-next-line no-undef
-        // heightReference:Cesium.HeightReference.CLAMP_TO_GROUND
-      },
-    });
+        position: Cesium.Cartesian3.fromDegrees(109.44+i, 32.11+i, 0),
+        point: {
+          //点
+          pixelSize: 0,
+          // heightReference: 0,
+          // disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          // eslint-disable-next-line no-undef
+          // heightReference: Cesium.HeightReference.CLAMP_TO_GROUND,//设置HeightReference高度参考类型为CLAMP_TO_GROUND贴地类型
+        },
+        label: {
+          //文字标签
+          text: "AAAA",
+          font: "500 30px Helvetica", // 15pt monospace
+          scale: 0.5,
+          // eslint-disable-next-line no-undef
+          style: Cesium.LabelStyle.FILL,
+          // eslint-disable-next-line no-undef
+          fillColor: Cesium.Color.WHITE,
+          // eslint-disable-next-line no-undef
+          pixelOffset: new Cesium.Cartesian2(-0, -35), //偏移量
+          showBackground: true,
+          // eslint-disable-next-line no-undef
+          backgroundColor: new Cesium.Color(0.5, 0.6, 1, 1.0),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          // eslint-disable-next-line no-undef
+          // heightReference:Cesium.HeightReference.CLAMP_TO_GROUND
+        },
+        billboard: {
+          //图标
+          image: require("./clz.png"),
+          // // eslint-disable-next-line no-undef
+          // image:new Cesium.GifImageProperty({
+          //     url: require("./orange.gif")
+          // }),
+          width: 25,
+          height: 41,
+          // eslint-disable-next-line no-undef
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          // eslint-disable-next-line no-undef
+          // heightReference:Cesium.HeightReference.CLAMP_TO_GROUND
+        },
+      }
+      monitorEntity = that.viewer.entities.add(itemObj);
+    }
+
+    
     // 视角定位
     that.viewer.flyTo(monitorEntity, {
       duration: 2,
@@ -281,7 +290,7 @@ export default {
     });
     //点击广告牌改变文本和图标
     // eslint-disable-next-line no-undef
-    var handler3D = new Cesium.ScreenSpaceEventHandler(
+    let handler3D = new Cesium.ScreenSpaceEventHandler(
       that.viewer.scene.canvas
     );
     // handler3D.setInputAction(function (click) {
@@ -298,21 +307,21 @@ export default {
     // ScreenSpaceEventHandler   处理用户输入事件。可以添加自定义功能以在以下位置执行当用户输入输入时。
     handler3D.setInputAction(function(movement) {
         // 监听鼠标的当前位置坐标，然后根据当前坐标去动态更新气泡窗口div的显示位置；
-        var pick = that.viewer.scene.pick(movement.position);
+        let pick = that.viewer.scene.pick(movement.position);
         // ovement.position是获取屏幕坐标
         // pick 记录当前屏幕位置
-        if(pick && pick){
+        if(pick && pick.id._name == "video"){
             // 这里的判断条件还是蛮有用的,比如你点击某些点的时候想弹出自定义弹窗,其他点弹出原生弹窗,就需要在这里进行判断了
             // eslint-disable-next-line no-undef
             $("#trackPopUp").show();
             // 显示弹窗容器
             // eslint-disable-next-line no-undef
-            var cartographic = Cesium.Cartographic.fromCartesian(pick.primitive._actualPosition);
+            let cartographic = Cesium.Cartographic.fromCartesian(pick.primitive._actualPosition);
             // 获取点的经纬度
-            var point=[cartographic.longitude / Math.PI * 180, cartographic.latitude / Math.PI * 180];
+            let point=[cartographic.longitude / Math.PI * 180, cartographic.latitude / Math.PI * 180];
             // 转换坐标
             // eslint-disable-next-line no-undef
-            var destination=Cesium.Cartesian3.fromDegrees(point[0], point[1], 3000.0);
+            let destination=Cesium.Cartesian3.fromDegrees(point[0], point[1], 3000.0);
             // destination是我们点击之后,flyto的位置
             let content =
                 '<table  border="1" width="400px" colspan="4">'+
@@ -347,18 +356,127 @@ export default {
   data() {
     return {
       viewer: {},
+      disasterPoints:[
+            {
+                "JCAA02A350": 1515024000000,
+                "JCDINFO01A030": "3",
+                "DELETEFLAG": "0",
+                "JCAA02A390": 2,
+                "JCDINFO01A110": 110.616236,
+                "JCAA02A070": 110.6156,
+                "JCTIME": 1588079580000,
+                "MINVALUE_TIME": 1540512000000,
+                "CLMC": "树坪滑坡雨量黄色预警",
+                "JCAA02A200": 1578048841000,
+                "JCAA02A240": "9824677865a740c3bb03c8ff671125a9",
+                "JCDINFO01A040": "42052700000001000003",
+                "MAXVALUE_TIME": 1588032000000,
+                "JCDINFO01A120": 30.992684,
+                "JCAA02A160": 420527104009,
+                "JC_MINVALUE": 89.23,
+                "JCAA02A040": "01",
+                "OID": "2",
+                "TYBH": "05162300008",
+                "JCAA02A080": 30.99139,
+                "JCDSB01A050": 0,
+                "YJVALUE": 60.32,
+                "JC_MAXVALUE": 121.12,
+                "JCDSB01A010": "ace675a5741511eaae810011322ca603",
+                "JCAA02A410": "13",
+                "JCDINFO01A050": "YL01",
+                "JCAA02A010": "42052700000001000003",
+                "JCAA02A330": "LTS",
+                "JCDINFO01A130": "滑坡中后部",
+                "JCDINFO01A010": "3573f6ce892611eaae810011322ca603",
+                "JCAA02A170": "9824677865a740c3bb03c8ff671125a9",
+                "JCAA02A370": 0,
+                "SFWSJD": 2,
+                "READSTATE": 0,
+                "JCAA02A290": "18071318052",
+                "YJLEVEL": 2,
+                "CJMK": "树坪滑坡_雨量监测",
+                "JCDSB01A020": "420527000000010000030024",
+                "JCAA02A420": "13972002480,18911630214,13007191908,15565749532",
+                "JCAA02A300": "1baf8e36-bc2e-41fa-bb42-d0e41d90eded",
+                "JCDINFO01A060": 1564963200000,
+                "JCAA02A020": "树坪滑坡监测网",
+                "JCDINFO01A140": "11",
+                "JCAA02A220": "树坪滑坡体在监测初期布设6个GPS变形监测点，滑体外围布设1个GPS监测基点。变形监测点呈两纵三横布置，基本能监控整个滑坡体的变形。2004年2月，因滑坡体变形加剧，根据滑坡体变形特点，在滑体前缘及中部临时增设5个GPS变形监测点投入应急监测，2006年5月监测点SP-5已完全被毁，2006年12月监测点SP-1、SP-3已被库水淹没。2014年11月，ZG89点因防治工程施工被破坏。2007年10月24日在树坪滑坡体上新建一个GPS监测点SP-6及基准点spj1，2007年9月26日又新建了一个基准点sp-2，这两个基准点是为应急监测用。2008年7月监测点SP-4因移土培肥破坏而失测。2010年4月在树坪滑坡体上新增4个应急倾斜监测钻孔、1个水文监测钻孔、1个推力监测钻孔，其中倾斜监测孔QZK4于2010年7月损坏，QZK1、QZK2及水文孔、推力孔目前均不能正常工作，同时，在各GPS监测点上高通公司实施了实时相对位移监测。\n2019年，为了与以往专业监测设备进行对比验证普适型监测设备的功能成效，将该点选择为湖北省地质灾害三级监测试点，同时该点也作为国家普适型监测试点，在树坪滑坡体上新增各类普适型监测设备，包括：GNSS、加速度计及综合监测设备等不同类型的监测设备。",
+                "JCDINFO01A020": "420527000000010000030024",
+                "JCAA02A060": "湖北省宜昌市秭归县沙镇溪镇树坪村",
+                "JCDINFO01A100": "中科川信布设雨量计",
+                "JCAA02A260": "1",
+                "JCAA02A140": 1340150400000,
+                "JCDSB01A030": "05162300008",
+                "JGSJ": 3
+            }, {
+                "JCAA02A310": "黄照先",
+                "JCAA02A350": 1569888000000,
+                "JCDINFO01A030": "1",
+                "DELETEFLAG": "0",
+                "JCAA02A390": 3,
+                "JCDINFO01A110": 110.743337,
+                "JCAA02A070": 110.7439,
+                "JCTIME": 1588077125000,
+                "MINVALUE_TIME": 1588077148000,
+                "CLMC": "树坪滑坡GNSS黄色预警",
+                "JCAA02A200": 1576851052000,
+                "JCAA02A240": "295a73ea381e441281fe4c9f1eb04f63",
+                "JCDINFO01A040": "42052710600701000000",
+                "MAXVALUE_TIME": 1588077145000,
+                "JCAA02A320": "18986766680",
+                "JCDINFO01A120": 30.917907,
+                "JCAA02A280": "张瑞淼",
+                "JCAA02A160": 420527106007,
+                "JC_MINVALUE": 45.32,
+                "JCAA02A040": "01",
+                "OID": "3",
+                "TYBH": "05162300007",
+                "JCAA02A080": 30.91972,
+                "JCDSB01A050": 0,
+                "YJVALUE": 32.23,
+                "JC_MAXVALUE": 21.12,
+                "JCDSB01A010": "ace635fc741511eaae810011322ca603",
+                "JCAA02A410": "13",
+                "JCDINFO01A050": "XZF9242",
+                "JCAA02A010": "42052710600701000000",
+                "JCAA02A330": "LTS",
+                "JCDINFO01A130": "滑坡中部",
+                "JCDINFO01A010": "3569c6f0892611eaae810011322ca603",
+                "JCAA02A170": "9824677865a740c3bb03c8ff671125a9",
+                "JCAA02A370": 0,
+                "SFWSJD": 1,
+                "READSTATE": 0,
+                "YJLEVEL": 1,
+                "CJMK": "树坪滑坡_GNSS监测",
+                "JCDSB01A020": "420527106007010000000018",
+                "JCAA02A420": "13972002480,18911630214,13007191908,15565749532",
+                "JCAA02A300": "1baf8e36-bc2e-41fa-bb42-d0e41d90eded",
+                "JCDINFO01A060": 1563840000000,
+                "JCAA02A020": "小榨坊下游崩滑体三级监测网",
+                "JCDINFO01A140": "08",
+                "JCAA02A220": "该灾害点为湖北省三级地质灾害专业监测试点，同时也作为国家普适性监测设备试点。在滑坡上布有多种监测设备，包括：GNSS、裂缝计、倾角计、加速度计及综合监测设备等不同类型的监测设备，在监测滑坡表层形变特征同时也进行互相对比验证。",
+                "JCDINFO01A020": "420527106007010000000018",
+                "JCAA02A060": "湖北省宜昌市秭归县郭家坝镇烟灯堡村",
+                "JCDINFO01A100": "东方生态综合监测设备（土壤含水率、土壤温度、倾斜角）",
+                "JCAA02A260": "1",
+                "JCAA02A140": 1569801600000,
+                "JCAA02A180": "刘哲儒",
+                "JCDSB01A030": "05162300007",
+                "JGSJ": 3
+            }]
     };
   },
   methods:{
     infoWindow(obj,pick) {
       let that = this
-        var picked = that.viewer.scene.pick(obj.position);
+        let picked = that.viewer.scene.pick(obj.position);
         // 首先获取点击点的信息
         // eslint-disable-next-line no-undef
         if (Cesium.defined(picked)) {
             // 判断 如果点被定义了
             // eslint-disable-next-line no-undef
-            var id = Cesium.defaultValue(picked.id, picked.primitive.id); 
+            let id = Cesium.defaultValue(picked.id, picked.primitive.id); 
             // 获取id(id就是原生弹窗的标题)
             if(id ){
                 let back_position = null
@@ -366,10 +484,10 @@ export default {
                   // eslint-disable-next-line no-undef
                     back_position = new Cesium.Cartesian3.fromDegrees(that.getCenterPosition().x, that.getCenterPosition().y, that.getCenterPosition().z);
                     // 我在这里用back_position记录的点击之前的位置,便于×掉弹窗后返回
-                    that.viewer.camera.flyTo({
-                        // 跳转到我们刚才定义的位置
-                        destination: obj.destination
-                    });
+                    // that.viewer.camera.flyTo({
+                    //     // 跳转到我们刚才定义的位置
+                    //     destination: obj.destination
+                    // });
                 }
                 // 填充内容
                 // eslint-disable-next-line no-undef
@@ -387,7 +505,7 @@ export default {
                 $('#trackPopUp').show();
                 that.positionPopUp(c); 
                 //实时更新位置
-                var removeHandler = that.viewer.scene.postRender.addEventListener(function () {
+                let removeHandler = that.viewer.scene.postRender.addEventListener(function () {
                   // eslint-disable-next-line no-undef
                     let changedC = Cesium.SceneTransforms.wgs84ToWindowCoordinates(that.viewer.scene, pick.primitive._actualPosition);
                     // 我们转动地球,也会实时更新弹窗的位置.并不会一成不变
@@ -407,12 +525,14 @@ export default {
                     $('#trackPopUpLink').empty();
                     // eslint-disable-next-line no-undef
                     $(".cesium-selection-wrapper").hide();
-                    removeHandler.call();
+                    if(removeHandler){
+                      removeHandler.call();
+                    }
                     if(back_position){
-                      that.viewer.camera.flyTo({
-                        // 回到我们点击前的位置
-                          destination: back_position
-                      });
+                      // that.viewer.camera.flyTo({
+                      //   // 回到我们点击前的位置
+                      //     destination: back_position
+                      // });
                     }
                     
                     return false;
@@ -424,24 +544,24 @@ export default {
     getHeight(){
       let that = this
       //获取当前高度
-        if (that.viewer) {
-            var scene = that.viewer.scene;
-            var ellipsoid = scene.globe.ellipsoid;
-            var height = ellipsoid.cartesianToCartographic(that.viewer.camera.position).height;
-            return height;
-        }
+      if (that.viewer) {
+          let scene = that.viewer.scene;
+          let ellipsoid = scene.globe.ellipsoid;
+          let height = ellipsoid.cartesianToCartographic(that.viewer.camera.position).height;
+          return height;
+      }
     },
     getCenterPosition(){
       let that = this
       //获取当前位置
       // eslint-disable-next-line no-undef
-      var result = that.viewer.camera.pickEllipsoid(new Cesium.Cartesian2(that.viewer.canvas.clientWidth / 2, that.viewer.canvas
+      let result = that.viewer.camera.pickEllipsoid(new Cesium.Cartesian2(that.viewer.canvas.clientWidth / 2, that.viewer.canvas
           .clientHeight / 2));
           // eslint-disable-next-line no-undef
-      var curPosition = Cesium.Ellipsoid.WGS84.cartesianToCartographic(result);
-      var lon = curPosition.longitude * 180 / Math.PI;
-      var lat = curPosition.latitude * 180 / Math.PI;
-      var height = that.getHeight();
+      let curPosition = Cesium.Ellipsoid.WGS84.cartesianToCartographic(result);
+      let lon = curPosition.longitude * 180 / Math.PI;
+      let lat = curPosition.latitude * 180 / Math.PI;
+      let height = that.getHeight();
       return {
           x: lon,
           y: lat,
@@ -450,9 +570,9 @@ export default {
     },
     positionPopUp(c){
       // eslint-disable-next-line no-undef
-      var x = c.x - ($('#trackPopUpContent').width()) / 2;
+      let x = c.x - ($('#trackPopUpContent').width()) / 2;
       // eslint-disable-next-line no-undef
-      var y = c.y - ($('#trackPopUpContent').height());
+      let y = c.y - ($('#trackPopUpContent').height());
       // 为所有匹配元素(#trackPopUpContent)设置transform的值为 'translate3d(' + x + 'px, ' + y + 'px, 0)'
       // eslint-disable-next-line no-undef
       $('#trackPopUpContent').css('transform', 'translate3d(' + x + 'px, ' + y + 'px, 0)');
@@ -461,13 +581,13 @@ export default {
 };
 </script>
 
-
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #cesiumContainer {
   position: absolute;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 /*leaflet风格气泡窗口样式模板*/
